@@ -126,6 +126,51 @@ external class DocumentReference {
     fun get() : Promise<DocumentSnapshot>
 
     /**
+     * Fetches the subcollections that are direct children of this document.
+     * @return A [Promise] that resolves with an [Array] of [CollectionReference].
+     *
+     * **JS Example**
+     *      > let documentRef = firestore.doc('col/doc');
+     *      documentRef.getCollections().then(collections => {
+     *          for (let collection of collections) {
+     *              console.log(`Found subcollection with id: ${collection.id}`);
+     *          }
+     *      });
+     */
+    fun getCollection() : Promise<Array<out CollectionReference>>
+
+    /**
+     * Returns true if this [DocumentReference] is equal to the provided value.
+     * @param other The value to compare against.
+     * @return true if this [DocumentReference] is equal to the provided value.
+     */
+    fun isEqual( other: dynamic ) : Boolean
+
+    /**
+     * Attaches a listener for DocumentSnapshot events.
+     * @param onNext A callback to be called every time a new [DocumentSnapshot] is available.
+     * @param onError A callback to be called if the listen fails or is cancelled. No further callbacks will occur.
+     * If unset, errors will be logged to the console.
+     * @return An unsubscribe function that can be called to cancel the snapshot listener.
+     *
+     * **JS Example**
+     *      > let documentRef = firestore.doc('col/doc');
+     *      let unsubscribe = documentRef.onSnapshot(documentSnapshot => {
+     *          if (documentSnapshot.exists) {
+     *              console.log(documentSnapshot.data());
+     *          }
+     *      }, err => {
+     *          console.log(`Encountered error: ${err}`);
+     *      });
+     *      // Remove this listener.
+     *      unsubscribe();
+     */
+    fun onSnapshot(
+            onNext: (DocumentSnapshot) -> Unit,
+            onError: (Throwable) -> Unit? = definedExternally
+    ) : () -> Unit
+
+    /**
      * Writes to the document referred to by this DocumentReference. If the document does not yet exist, it will
      * be created. If you pass SetOptions, the provided data can be merged into an existing document.
      * @see DocumentReference.setMap extension function for set a [Map].
@@ -142,6 +187,22 @@ external class DocumentReference {
      */
     @Deprecated("Use the extension function", ReplaceWith("setMap / setModel" ) )
     fun set( data: dynamic, options: dynamic = definedExternally ) : Promise<WriteResult>
+
+    /**
+     * Updates fields in the document referred to by this DocumentReference. If the document doesn't yet exist,
+     * the update fails and the returned Promise will be rejected.
+     * The update() method accepts either an object with field paths encoded as keys and field values encoded
+     * as values, or a variable number of arguments that alternate between field paths and field values.
+     * A Precondition restricting this update can be specified as the last argument.
+     * @param dataOrField An object containing the fields and values with which to update the document or the path
+     * of the first field to update.
+     * @param preconditionOrValues An alternating list of field paths and values to update or a Precondition
+     * to restrict this update.
+     * Value may be repeated.
+     * @return A [Promise] that resolves [WriteResult] once the data has been successfully written to the backend.
+     */
+    @Deprecated("Use the extension function", ReplaceWith("updateMap / updateModel / updateField" ) )
+    fun update( dataOrField: dynamic, preconditionOrValues: dynamic = definedExternally ) : Promise<WriteResult>
 }
 
 // CREATE.
@@ -155,14 +216,29 @@ fun DocumentReference.deleteRef( lastUpdateTime: String? ) =
 
 // SET.
 fun DocumentReference.setMap( map: Map<String, Any>, merge: Boolean? = null ) =
-        merge?.let { set( map, "merge" to merge ) } ?: set( map.toJson() )
+        merge?.let { set( map, "merge" to merge ) } ?: set( map )
 
 fun DocumentReference.setMap( map: Map<String, Any>, vararg mergeFields: String ) =
         set( map, mergeFields.toList().toTypedArray() )
 
 fun DocumentReference.setModel( model: Any, merge: Boolean? = null ) =
-        merge?.let { set( model.toJson(), "merge" to model ) } ?: set( model.toJson() )
+        merge?.let { set( model.toJson(), "merge" to merge ) } ?: set( model.toJson() )
 
 fun DocumentReference.setModel( model: Any, vararg mergeFields: String ) =
         set( model.toJson(), mergeFields.toList().toTypedArray() )
+
+// Update.
+fun DocumentReference.updateMap( map: Map<String, Any>, lastUpdateTime: String? ) =
+        lastUpdateTime?.let { update( map,"lastUpdateTime" to lastUpdateTime ) } ?: update( map )
+
+fun DocumentReference.updateModel( model: Any, lastUpdateTime: String? ) =
+        lastUpdateTime?.let { update( model.toJson(),"lastUpdateTime" to lastUpdateTime ) }
+                ?: update( model.toJson() )
+
+fun DocumentReference.updateFields( fieldPath: FieldPath, value: Any ) =
+        update( fieldPath, value )
+
+fun DocumentReference.updateFields( fieldPath: String, value: Any ) =
+        update( fieldPath, value )
+
 

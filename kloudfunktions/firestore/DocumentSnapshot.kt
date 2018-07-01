@@ -2,6 +2,9 @@
 
 package kloudfunktions.kloudfunktions.firestore
 
+import org.w3c.dom.ElementDefinitionOptions
+import kotlin.js.Promise
+
 /** TODO
  * @author 4face (Davide Giuseppe Farella).
  * Interface representing a Cloud Firestore document delta snapshot.
