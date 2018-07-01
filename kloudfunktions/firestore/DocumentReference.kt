@@ -13,7 +13,7 @@ import kotlin.js.Promise
  */
 external class DocumentReference {
     /**
-     * The [Firestore] instance for the Firestore database (useful for performing transactions, etc.).
+     * The [FirestoreNamespace] instance for the Firestore database (useful for performing transactions, etc.).
      *
      * **JS Example**
      *      > let collectionRef = firestore.collection('col');
@@ -22,7 +22,7 @@ external class DocumentReference {
      *          console.log(`Root location for document is ${firestore.formattedName}`);
      *      });
      */
-    val firestore: Firestore
+    val firestore: FirestoreNamespace
 
     /**
      * The last path element of the referenced document.

@@ -59,6 +59,15 @@ open external class DocumentSnapshot {
      * Retrieves the field specified by [field].
      * @param field The field path (e.g. 'foo' or 'foo.bar') to a specific field.
      * @return The data at the specified field location or undefined if no such field exists.
+     *
+     * **JS Example**
+     *      > let documentRef = firestore.doc('col/doc');
+     *      documentRef.set({ a: { b: 'c' }}).then(() => {
+     *          return documentRef.get();
+     *      }).then(documentSnapshot => {
+     *          let field = documentSnapshot.get('a.b');
+     *          console.log(`Retrieved field value: ${field}`);
+     *      });
      */
     fun get( field: FieldPath ) : Any
 
@@ -66,5 +75,12 @@ open external class DocumentSnapshot {
      * @see get
      */
     fun get( field: String ) : Any
+
+    /**
+     * Returns true if the document's data and path in this [DocumentSnapshot] is equal to the provided value.
+     * @param other The value to compare against.
+     * @return true if this [DocumentSnapshot] is equal to the provided value.
+     */
+    fun isEqual( other: dynamic ) : Boolean
 
 }

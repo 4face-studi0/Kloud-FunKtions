@@ -22,7 +22,7 @@ open external class Query {
      *          console.log(`Root location for document is ${firestore.formattedName}`);
      *      });
      */
-    val firestore: Firestore
+    val firestore: FirestoreNamespace
 
     /**
      * Creates and returns a new [Query] that ends at the provided set of field values relative to the order of
