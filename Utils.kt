@@ -1,14 +1,17 @@
 package kloudfunktions
 
-import kotlin.js.Json
-import kotlin.js.json
+import kloudfunktions.kloudfunktions.firestore.DocumentSnapshot
 
-@JsModule("json2plain")
-@JsNonModule
-external fun jsonToPlain( obj: dynamic ) : dynamic
+/**
+ * @author 4Face (Davide Giuseppe Farella).
+ * This method convert [Any] to a [JSON] object.
+ * @return the parsed [JSON].
+ */
+fun Any.toJson() = JSON.parse<JSON>( JSON.stringify(this ) )
 
-fun Map<String, Any>.toJs() =
-        json( * map { it.key to it.value }.toTypedArray() )
-
-fun Any.toJs(): dynamic = jsonToPlain( JSON.stringify(this ) )
-        .also { d -> console.info( d ) }
+/**
+ * This method convert a [DocumentSnapshot.data] into a Model [T].
+ * @return and instance of [T].
+ */
+@Suppress("UnsafeCastFromDynamic")
+fun <T> DocumentSnapshot.toModel() = JSON.parse<T>( JSON.stringify( data() ) )

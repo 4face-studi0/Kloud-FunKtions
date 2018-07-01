@@ -7,7 +7,7 @@ package kloudfunktions.kloudfunktions.firestore
  * Interface representing a Cloud Firestore document delta snapshot.
  * [Google Doc](https://firebase.google.com/docs/reference/functions/functions.firestore.DocumentSnapshot)
  */
-external interface DocumentSnapshot {
+open external class DocumentSnapshot {
     /**
      * The date the document was created, formatted as a UTC string.
      */
