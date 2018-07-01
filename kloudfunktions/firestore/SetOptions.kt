@@ -1,11 +1,11 @@
-@file:Suppress("unused", "FunctionName")
 
 package kloudfunktions.kloudfunktions.firestore
 
 /**
  * @author 4face (Davide Giuseppe Farella).
  */
-typealias SetOptions = (merge: Boolean, mergeFields: String) -> dynamic
+typealias SetOptions1 = (merge: Boolean) -> dynamic
+typealias SetOptions2 = (mergeFields: Array<String>) -> dynamic
 
 /**
  * An object to configure the set behavior.
@@ -14,9 +14,10 @@ typealias SetOptions = (merge: Boolean, mergeFields: String) -> dynamic
  * is ignored and remains untouched.
  * @return a dynamic.
  */
-val setOptions: SetOptions get() = { merge, mergeFields ->
+val setOptions: SetOptions1 get() = { merge ->
+
     val d: dynamic = object {}
     d["merge"] = merge
-    d["mergeFields"] = mergeFields
     d
 }
+
