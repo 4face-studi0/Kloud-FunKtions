@@ -9,5 +9,7 @@ external interface StorageNamespace {
     /**
      * Registers a Cloud Function scoped to a specific storage bucket.
      */
-    fun bucket()
+    fun bucket() : BucketBuilder
+
+    fun `object`() : ObjectBuilder
 }
