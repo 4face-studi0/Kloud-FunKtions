@@ -21,7 +21,7 @@ external interface DocumentBuilder {
      * Value must not be null.
      * @return A [CloudFunction] which you can export and deploy.
      */
-    fun onCreate( handler: (DocumentSnapshot, EventContext) -> Promise<Any> )
+    fun onCreate( handler: (DocumentSnapshot, EventContext) -> Promise<Any> ) : CloudFunction
 
     /**
      * Event handler that fires every time new data is deleted in Cloud FirestoreNamespace.
@@ -30,7 +30,7 @@ external interface DocumentBuilder {
      * Value must not be null.
      * @return A [CloudFunction] which you can export and deploy.
      */
-    fun onDelete( handler: (DocumentSnapshot, EventContext) -> Promise<Any> )
+    fun onDelete( handler: (DocumentSnapshot, EventContext) -> Promise<Any> ) : CloudFunction
 
     /**
      * Event handler that fires every time new data is updated in Cloud FirestoreNamespace.
@@ -39,7 +39,7 @@ external interface DocumentBuilder {
      * Value must not be null.
      * @return A [CloudFunction] which you can export and deploy.
      */
-    fun onUpdate( handler: (Change, EventContext) -> Promise<Any> )
+    fun onUpdate( handler: (Change, EventContext) -> Promise<Any> ) : CloudFunction
 
     /**
      * Event handler that fires every time a Cloud FirestoreNamespace write of any kind (creation, update, or delete) occurs.
@@ -48,5 +48,5 @@ external interface DocumentBuilder {
      * Value must not be null.
      * @return A [CloudFunction] which you can export and deploy.
      */
-    fun onWrite( handler: (Change, EventContext) -> Promise<Any> )
+    fun onWrite( handler: (Change, EventContext) -> Promise<Any> ) : CloudFunction
 }

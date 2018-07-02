@@ -8,8 +8,14 @@ package kloudfunktions.kloudfunktions.storage
 external interface StorageNamespace {
     /**
      * Registers a Cloud Function scoped to a specific storage bucket.
+     * @param bucket Name of the bucket to which this Cloud Function is scoped.
+     * @return Storage [BucketBuilder] interface.
      */
-    fun bucket() : BucketBuilder
+    fun bucket( bucket: String ) : BucketBuilder
 
+    /**
+     * Registers a Cloud Function scoped to the default storage bucket for the project.
+     * @return Storage [ObjectBuilder] interface.
+     */
     fun `object`() : ObjectBuilder
 }
