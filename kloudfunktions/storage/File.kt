@@ -2,6 +2,7 @@
 
 package kloudfunktions.kloudfunktions.storage
 
+import kloudfunktions.misc.stream.Readable
 import kotlin.js.Promise
 
 /** TODO
@@ -177,6 +178,61 @@ external class File( bucket: Bucket, name: String, options: FileOptions? = defin
             options: CopyOptions? = definedExternally,
             copyCallback: CopyCallback? = definedExternally
     ) : Promise<CopyResponse>
+
+    /** TODO
+     * Create a readable stream to read the contents of the remote file. It can be piped to a writable stream or
+     * listened to for 'data' events to read a file's contents.
+     * In the unlikely event there is a mismatch between what you downloaded and the version in your Bucket, your
+     * error handler will receive an error with code "CONTENT_DOWNLOAD_MISMATCH". If you receive this error,
+     * the best recourse is to try downloading the file again.
+     * NOTE: Readable streams will emit the end event when the file is fully downloaded.
+     * @param options Configuration options.
+     * @return [Readable].
+     *
+     * **JS Example**
+     *      > //-
+     *      // <h4>Downloading a File</h4>
+     *      //
+     *      // The example below demonstrates how we can reference a remote file, then
+     *      // pipe its contents to a local file. This is effectively creating a local
+     *      // backup of your remote data.
+     *      //-
+     *      const storage = require('@google-cloud/storage')();
+     *      const bucket = storage.bucket('my-bucket');
+     *      const fs = require('fs');
+     *      const remoteFile = bucket.file('image.png');
+     *      const localFilename = '/Users/stephen/Photos/image.png';
+     *      remoteFile.createReadStream()
+     *          .on('error', function(err) {})
+     *          .on('response', function(response) {
+     *              // Server connected and responded with the specified status and headers.
+     *          })
+     *          .on('end', function() {
+     *              // The file is fully downloaded.
+     *          })
+     *          .pipe(fs.createWriteStream(localFilename));
+     *      //-
+     *      // To limit the downloaded data to only a byte range, pass an options object.
+     *      //-
+     *      const logFile = myBucket.file('access_log');
+     *      logFile.createReadStream({
+     *          start: 10000,
+     *          end: 20000
+     *      })
+     *          .on('error', function(err) {})
+     *          .pipe(fs.createWriteStream('/Users/stephen/logfile.txt'));
+     *      //-
+     *      // To read a tail byte range, specify only `options.end` as a negative
+     *      // number.
+     *      //-
+     *      const logFile = myBucket.file('access_log');
+     *      logFile.createReadStream({
+     *          end: -100
+     *      })
+     *          .on('error', function(err) {})
+     *          .pipe(fs.createWriteStream('/Users/stephen/logfile.txt'));
+     */
+    fun createReadStream( options: dynamic = definedExternally ) : Readable
 }
 
 /**

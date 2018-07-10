@@ -5,7 +5,7 @@ package kloudfunktions.kloudfunktions.storage
  *
  * [Google Doc](https://cloud.google.com/nodejs/docs/reference/storage/1.7.x/Bucket).
  */
-external class Bucket {
+external class Bucket( path: String ) {
 
     /**
      * The bucket's name.
@@ -17,6 +17,6 @@ external class Bucket {
      * @see File to see how to handle the different use cases you may have.
      * @param name The name of the file in this bucket.
      */
-    fun file( name: String, options: FileOptions ) : File
+    fun file( name: String, options: FileOptions = definedExternally ) : File
 
 }

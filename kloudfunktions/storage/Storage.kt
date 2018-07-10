@@ -8,7 +8,10 @@ package kloudfunktions.kloudfunktions.storage
  */
 @JsModule("@google-cloud/storage")
 @JsNonModule
-external object Storage {
+external fun storage() : Storage
+
+@Deprecated("Don't use default constructor", ReplaceWith("storage()"))
+external class Storage {
     /** TODO
      * Cloud Storage uses access control lists (ACLs) to manage object and bucket access. ACLs are the mechanism
      * you use to share objects with other users and allow other users to access your buckets and objects.
@@ -49,4 +52,6 @@ external object Storage {
      *      });
      */
     val acl: dynamic
+
+    fun bucket( path: String ): Bucket
 }
