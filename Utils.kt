@@ -11,7 +11,13 @@ fun Any.toJson() = JSON.parse<JSON>( JSON.stringify(this ) )
 
 /**
  * This method convert a [DocumentSnapshot.data] into a Model [T].
- * @return and instance of [T].
+ * @return an instance of [T].
  */
 @Suppress("UnsafeCastFromDynamic")
 fun <T> DocumentSnapshot.toModel() = JSON.parse<T>( JSON.stringify( data() ) )
+
+/**
+ * This method convert a [JSON] into a Model [T].
+ * @return an instance of [T].
+ */
+fun <T> JSON.toModel() = JSON.parse<T>( JSON.stringify( this ) )

@@ -48,6 +48,6 @@ fun EventEmitter.onError(listener: (Throwable) -> Unit ) =
         on("error", listener as ( (Any) -> Unit ) )
 
 fun EventEmitter.toPromise()= Promise<Any> { resolve, reject ->
-    onEnd(resolve)
-    onError(reject)
+    onEnd( resolve )
+    onError( reject )
 }
