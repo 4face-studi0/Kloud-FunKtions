@@ -20,4 +20,19 @@ fun <T> DocumentSnapshot.toModel() = JSON.parse<T>( JSON.stringify( data() ) )
  * This method convert a [JSON] into a Model [T].
  * @return an instance of [T].
  */
-fun <T> JSON.toModel() = JSON.parse<T>( JSON.stringify( this ) )
+fun <T> JSON.toModel() = JSON.parse<T>( JSON.stringify(this ) )
+
+
+// Arrays / Map
+
+fun jsMap( init: (dynamic) -> Unit )= Any().apply { init( asDynamic() ) }.asDynamic()
+
+fun keys( obj: dynamic )= js("Object" ).keys( obj ).unsafeCast<Array<String>>()
+
+fun <T> map( obj: dynamic ) = mapOf(
+        * keys( obj )
+                .map { it to obj[it].unsafeCast<T>() }
+                .toTypedArray()
+)
+
+fun <T> mutableMap( obj: dynamic ) = map<T>( obj ).toMutableMap()

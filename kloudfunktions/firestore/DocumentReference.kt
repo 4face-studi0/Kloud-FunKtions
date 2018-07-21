@@ -201,7 +201,7 @@ external class DocumentReference {
      * Value may be repeated.
      * @return A [Promise] that resolves [WriteResult] once the data has been successfully written to the backend.
      */
-    @Deprecated("Use the extension function", ReplaceWith("updateMap / updateModel / updateField" ) )
+    @Deprecated("Use the extension function", ReplaceWith("updateFromMap / updateFromModel / updateField" ) )
     fun update( dataOrField: dynamic, preconditionOrValues: dynamic = definedExternally ) : Promise<WriteResult>
 }
 
@@ -227,18 +227,22 @@ fun DocumentReference.setModel( model: Any, merge: Boolean? = null ) =
 fun DocumentReference.setModel( model: Any, vararg mergeFields: String ) =
         set( model.toJson(), mergeFields.toList().toTypedArray() )
 
-// Update.
-fun DocumentReference.updateMap( map: Map<String, Any>, lastUpdateTime: String? ) =
+// UPDATE.
+fun DocumentReference.updatedFieldWithEmptyObject( fieldPath: FieldPath ) =
+        update( fieldPath, js("{}" ) as Any )
+
+fun DocumentReference.updatedFieldWithEmptyObject( fieldPath: String ) =
+        update( fieldPath, js("{}" ) as Any )
+
+fun DocumentReference.updateField( fieldPath: FieldPath, value: Any ) =
+        update( fieldPath, value )
+
+fun DocumentReference.updateField( fieldPath: String, value: Any ) =
+        update( fieldPath, value )
+
+fun DocumentReference.updateFromMap( map: Map<String, Any>, lastUpdateTime: String? ) =
         lastUpdateTime?.let { update( map,"lastUpdateTime" to lastUpdateTime ) } ?: update( map )
 
-fun DocumentReference.updateModel( model: Any, lastUpdateTime: String? ) =
+fun DocumentReference.updateFromModel( model: Any, lastUpdateTime: String? ) =
         lastUpdateTime?.let { update( model.toJson(),"lastUpdateTime" to lastUpdateTime ) }
                 ?: update( model.toJson() )
-
-fun DocumentReference.updateFields( fieldPath: FieldPath, value: Any ) =
-        update( fieldPath, value )
-
-fun DocumentReference.updateFields( fieldPath: String, value: Any ) =
-        update( fieldPath, value )
-
-

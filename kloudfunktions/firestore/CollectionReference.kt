@@ -67,6 +67,6 @@ external class CollectionReference : Query {
      *      console.log(`Reference with name: ${documentRefWithName.path}`);
      *      console.log(`Reference with auto-id: ${documentRefWithAutoId.path}`);
      */
-    fun doc( documentPath: String? = definedExternally )
+    fun doc( documentPath: String? = definedExternally ): DocumentReference
 
 }

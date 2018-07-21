@@ -276,4 +276,14 @@ open external class Query {
      */
     fun where( fieldPath: FieldPath, opStr: String, value: dynamic ) : Query
 
+    /**
+     * @see where
+     */
+    fun where( fieldPath: String, opStr: String, value: dynamic ) : Query
 }
+
+fun Query.whereEquals( fieldPath: FieldPath, value: dynamic ) = where( fieldPath, "==", value )
+
+fun Query.whereEquals( fieldPath: String, value: dynamic ) = where( fieldPath, "==", value )
+
+fun Query.whereGreaterOrEquals( fieldPath: String, value: dynamic ) = where( fieldPath, ">=", value )
